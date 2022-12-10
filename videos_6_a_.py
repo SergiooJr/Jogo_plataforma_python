@@ -66,6 +66,12 @@ from sys import exit
 
 pygame.init()
 
+pygame.mixer.music.set_volume(0.3)
+musica_de_fundo = pygame.mixer.music.load('BoxCat Games - CPU Talk.mp3')
+pygame.mixer.music.play(-1) # com o parâmetro -1 a música fica em looping
+barulho_colisao = pygame.mixer.Sound('smw_coin.wav') # tirando a musica de fundo todos os outros arquivos de som
+# tem que ser .wav
+
 largura = 640
 altura_tela = 480
 tela = pygame.display.set_mode((largura, altura_tela))
@@ -78,8 +84,8 @@ altura_retangulo = 50
 cor_vermelho = (255, 0, 0)
 cor_azul = (0, 0, 255)
 
-x = (largura/2) - (comprimento_retangulo/2)
-y = (altura_tela/2) - (altura_retangulo/2)
+x = int((largura/2) - (comprimento_retangulo/2))
+y = int((altura_tela/2) - (altura_retangulo/2))
 
 x_azul = randint(40, 600)
 y_azul = randint(50, 430)
@@ -112,5 +118,6 @@ while True:
         x_azul = randint(40, 600)
         y_azul = randint(50, 430)
         pontos += 1
+        barulho_colisao.play()
     tela.blit(texto_formatado, (x_texto, y_texto))
     pygame.display.update()
