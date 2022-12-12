@@ -18,46 +18,58 @@ tela = pygame.display.set_mode((largura, altura_tela))
 pygame.display.set_caption('Meu Jogo')
 relogio = pygame.time.Clock()
 
-comprimento_retangulo = 40
-altura_retangulo = 50
+comprimento_quadrado = 20
+altura_quadrado = 20
 
 cor_vermelho = (255, 0, 0)
-cor_azul = (0, 0, 255)
+cor_verde = (0, 255, 0)
 
-x = int((largura/2) - (comprimento_retangulo/2))
-y = int((altura_tela/2) - (altura_retangulo/2))
+x_cobra = int((largura/2) - (comprimento_quadrado/2))
+y_cobra = int((altura_tela/2) - (altura_quadrado/2))
 
-x_azul = randint(40, 600)
-y_azul = randint(50, 430)
+x_maca = randint(40, 600)
+y_maca = randint(50, 430)
 
 x_texto = 420
 y_texto = 40
 fonte = pygame.font.SysFont('arial', 40, True, True)
 
 pontos = 0
+
+lista_cobra = []
+
+def aumenta_cobra(lista_cobra):
+    for XeY in lista_cobra:
+        pygame.draw.rect(tela, cor_verde, (XeY[0], XeY[1], comprimento_quadrado, altura_quadrado))
+
 while True:
-    relogio.tick(30)
-    tela.fill((0, 0, 0))
+    relogio.tick(60)
+    tela.fill((255, 255, 255))
     mensagem = f'Pontos: {pontos}'
-    texto_formatado = fonte.render(mensagem, True, (255, 255, 255))
+    texto_formatado = fonte.render(mensagem, True, (0, 0, 0))
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
             exit()
         if pygame.key.get_pressed()[K_a]:
-            x -= 20
+            x_cobra -= 4
         if pygame.key.get_pressed()[K_d]:
-            x += 20
+            x_cobra += 4
         if pygame.key.get_pressed()[K_w]:
-            y -= 20
+            y_cobra -= 4
         if pygame.key.get_pressed()[K_s]:
-            y += 20
-    ret_vermelho = pygame.draw.rect(tela, cor_vermelho, (x, y, comprimento_retangulo, altura_retangulo))
-    ret_azul = pygame.draw.rect(tela, cor_azul, (x_azul, y_azul, comprimento_retangulo, altura_retangulo))
-    if ret_vermelho.colliderect(ret_azul):
-        x_azul = randint(40, 600)
-        y_azul = randint(50, 430)
+            y_cobra += 4
+    cobra = pygame.draw.rect(tela, cor_verde, (x_cobra, y_cobra, comprimento_quadrado, altura_quadrado))
+    maca = pygame.draw.rect(tela, cor_vermelho, (x_maca, y_maca, comprimento_quadrado, altura_quadrado))
+    lista_cabeca = []
+    lista_cabeca.append(x_cobra)
+    lista_cabeca.append(y_cobra)
+    lista_cobra.append(lista_cabeca)
+    if cobra.colliderect(maca):
+        x_maca = randint(40, 600)
+        y_maca = randint(50, 430)
         pontos += 1
         barulho_colisao.play()
+        aumenta_cobra(lista_cobra)
     tela.blit(texto_formatado, (x_texto, y_texto))
     pygame.display.update()
