@@ -71,7 +71,7 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             exit()
-            
+
         # fazendo a cobra se movimentar sem parar
         if event.type == KEYDOWN:
             if event.key == K_a and x_controle != velocidade:
